@@ -51,7 +51,7 @@ public class EntradaDatos extends JFrame implements ActionListener{
 	public EntradaDatos() {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 543, 267);
+		setBounds(100, 100, 743, 267);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -76,7 +76,7 @@ public class EntradaDatos extends JFrame implements ActionListener{
 		
 		tbTokens = new JTable();
 		tbTokens.setBackground(SystemColor.text);
-		tbTokens.setBounds(236, 14, 284, 217);
+		tbTokens.setBounds(236, 14, 484, 217);
 		contentPane.add(tbTokens);
 		
 		JLabel lblNombre = new JLabel("Nombre");
@@ -119,8 +119,10 @@ public class EntradaDatos extends JFrame implements ActionListener{
 		model.addColumn("tipo");
 		model.addColumn("valor");
 		model.addColumn("tamano");
+		model.addColumn("Direccion");
+		model.addRow(new Object[]{"Nombre","Tipo" ,"Valor" ,"Bytes" ,"Direccion"});
 		for (Map.Entry<String, Estructura> entry : ts.lista.entrySet()) {
-			model.addRow(new Object[]{entry.getKey(), entry.getValue().tipo, entry.getValue().valorInicial, entry.getValue().getTamano()});
+			model.addRow(new Object[]{entry.getKey(), entry.getValue().tipo, entry.getValue().valorInicial, entry.getValue().getTamano(), entry.getValue().hashCode()});
 		}
 		tbTokens.setModel(model);
 	}
@@ -128,14 +130,10 @@ public class EntradaDatos extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand()=="a"){
-			if(ts.buscarToken(txtNombre.getText())){
-				JOptionPane.showMessageDialog(this, "Ya existe un token con ese nombre");
-			} else{
-				ts.agregarToken(txtNombre.getText(), cbxTipo.getSelectedItem().toString() , txtValorinicial.getText());
-				pintarTabla();
-				txtNombre.setText("");
-				txtValorinicial.setText("");
-			}
+			ts.agregarToken(txtNombre.getText(), cbxTipo.getSelectedItem().toString() , txtValorinicial.getText());
+			pintarTabla();
+			txtNombre.setText("");
+			txtValorinicial.setText("");
 		}
 		if(e.getActionCommand()=="v"){
 			if(ts.buscarToken(txtNombre.getText())){
